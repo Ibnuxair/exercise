@@ -10,8 +10,10 @@
 
 int exec(char **args, char **argv, char **env)
 {
-    if (args[0] == NULL)
-        return (1);
+  if (args[0] == NULL)
+    {
+      return (1);
+    }
 
     return (launch(args, argv, env));
 }

@@ -1,25 +1,38 @@
 #include "shell.h"
 
 /**
- * loop - main loop
+ * loop - executes the main loop
  * @argv: argument vector
  * @env: environment variable
-*/
+ */
+
 void loop(char **argv, char **env)
 {
-    int status, from_pipe = !isatty(STDIN_FILENO);
-    char *line, *args[2];
+  int from_pipe = !isatty(STDIN_FILENO);
+  char *line, *args[2];
+  size_t status;
+  
+  do {
+    if (!from_pipe)
+    {
+      /*interactive mode*/
+      write(STDOUT_FILENO, "($) ", 4);
+      line = readLine();
 
-    do {
-        if (!from_pipe)
-            write(STDOUT_FILENO, "$ ", 2);
-        line = readLine();
-        args = splitLine(line);
-        status = exec(args, argv, env);
+      args[0] = line;
+      args[1] = NULL;
+      status = exec(args, argv, env);
+    }
+    else
+    {
+      /*non_interactive mode*/
+      line = readLine();
 
-        if (from_pipe)
-             write(STDOUT_FILENO, "$ ", 2);
+      args[0] = line;                                                                                                                                                            args[1] = NULL;                                                                                                                                                            status = exec(args, argv, env);
+    }
 
-    }   while (status);
+    free(line);
     
+  } while (status);
+  
 }

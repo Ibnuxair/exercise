@@ -1,11 +1,18 @@
 #include "shell.h"
 
-int main(int argc, char **argv, char **env)
+/**
+ * main - test the program
+ * @argc: argument count
+ * @argv: argument vector
+ * @env: environment variable
+ *
+ * Return: always 0
+ */
+
+int main(int __attribute__((unused))argc, char **argv, char **env)
 {
-    if (argc < 1 || argc > 1)
-        return (1);
 
-    loop(argv, env);
-
-    return (EXIT_SUCCESS);
+  loop(argv, env);
+  
+  return (EXIT_SUCCESS);
 }
