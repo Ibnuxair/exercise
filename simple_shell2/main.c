@@ -12,7 +12,7 @@
 int main(int __attribute__((unused))argc, char **argv, char **env)
 {
 
-  loop(argv, env);
-  
-  return (EXIT_SUCCESS);
+	loop(argv, env);
+
+	return (EXIT_SUCCESS);
 }

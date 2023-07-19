@@ -8,31 +8,35 @@
 
 void loop(char **argv, char **env)
 {
-  int from_pipe = !isatty(STDIN_FILENO);
-  char *line, *args[2];
-  size_t status;
-  
-  do {
-    if (!from_pipe)
-    {
-      /*interactive mode*/
-      write(STDOUT_FILENO, "($) ", 4);
-      line = readLine();
+	int i, from_pipe = !isatty(STDIN_FILENO);
+	char *line, **args;
+	size_t status;
 
-      args[0] = line;
-      args[1] = NULL;
-      status = exec(args, argv, env);
-    }
-    else
-    {
-      /*non_interactive mode*/
-      line = readLine();
+	do {
+		if (!from_pipe)
+		{
+			/*interactive mode*/
+			write(STDOUT_FILENO, "($) ", 4);
 
-      args[0] = line;                                                                                                                                                            args[1] = NULL;                                                                                                                                                            status = exec(args, argv, env);
-    }
+			line = readLine();
+			args = splitLine(line);
+			status = exec(args, argv, env);
+		}
+		else
+		{
+			/*non_interactive mode*/
+			line = readLine();
+			args = splitLine(line);
+			status = exec(args, argv, env);
+		}
 
-    free(line);
-    
-  } while (status);
-  
+		free(line);
+		for (i = 0; args[i] != NULL; i++)
+		{
+			free(args[i]);
+		}
+		free(args);
+		args = NULL;
+
+	} while (status);
 }
