@@ -39,7 +39,6 @@ char *getPath(char *cmd)
 		_strcpy(filePath, pathToken);
 		_strcat(filePath, "/");
 		_strcat(filePath, cmd);
-		_strcat(filePath, "\0");
 
 		if (stat(filePath, &buffer) == 0)
 		{
@@ -49,9 +48,10 @@ char *getPath(char *cmd)
 		free(filePath);
 		pathToken = strtok(NULL, ":");
 	}
+	free(pathCpy);
+
 	if (stat(cmd, &buffer) == 0)
 		return (cmd);
 
-	free(pathCpy);
 	return (NULL);
 }

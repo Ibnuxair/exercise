@@ -20,7 +20,6 @@ int launch(char **args, char **argv, char **env)
 	if (cmdPath == NULL || access(cmdPath, F_OK) == -1)
 	{
 		print_err_msg(args[0], argv[0]);
-		free(cmdPath);
 	}
 	else
 	{
@@ -31,7 +30,6 @@ int launch(char **args, char **argv, char **env)
 			if (execve(cmdPath, args, env) == -1)
 			{
 				print_err_msg(args[0], argv[0]);
-				exit(EXIT_FAILURE);
 			}
 		}
 		else if (pid < 0)
@@ -51,5 +49,8 @@ int launch(char **args, char **argv, char **env)
 			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 		}
 	}
+	if (cmdPath != NULL && cmdPath != cmd)
+		free(cmdPath);
+
 	return (1);
 }

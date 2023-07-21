@@ -28,7 +28,7 @@ char **splitLine(char *line)
 		token = strtok(NULL, DELIM);
 	}
 
-	tokens = malloc(sizeof(char *) * tokensNum + 1);
+	tokens = malloc(sizeof(*tokens) * (tokensNum + 1));
 	if (!tokens)
 	{
                 write(STDOUT_FILENO, errMsg, _strlen(errMsg));
